@@ -36,3 +36,9 @@ L'utilisateur peut filtrer :
 
 => On génère une cartre chaud/froid de la france avec la concentration dans un sport dans chaque région
     => Générer une animation à travers les années
+
+
+A FAIRE :
+
+Faire plusieurs pages
+Rendre le tout jolie avec du css
