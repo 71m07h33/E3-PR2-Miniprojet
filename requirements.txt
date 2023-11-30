@@ -1,0 +1,7 @@
+Le fichier requirements.txt doit contenir la liste des seuls packages additionnels requis tel que la commande:
+
+$ python -m pip install -r requirements.txt
+
+installe l’ensemble des dépendances nécessaires (et uniquement celles là).
+
+
