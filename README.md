@@ -15,8 +15,8 @@ Diviser en sub fichier
 ELEMENT 1 : HISTOGRAMME COMPOSITION DES SPORTS EN FONCTIONS DE L'AGE ET DU SEXE
 
 L'utilisateur choisis :
-    - Le sport (Si aucun sport n'est choisis, on prendra le nombre totale de licenciés sur tout les sports)
-    - La localisation (Si aucun lieux n'est choisis (commune/région), on prendra sur toute la France)
+    - Le sport
+    - La localisation
     - L'année (Entre 2016 et 2019)
 
 => On génère un histogramme avec le nombre de licenciés dans un sport dans une région en fonction de l'âge (Homme, Femme pour chaque catégorie d'âge)
@@ -32,13 +32,24 @@ L'utilisateur choisis :
 
 L'utilisateur peut filtrer :
     - En fonction de l'age
-    - En focntion du sexe
+    - En fonction du sexe
 
 => On génère une cartre chaud/froid de la france avec la concentration dans un sport dans chaque région
     => Générer une animation à travers les années
+
+ELEMENT 2 : CARTE DYNAMIQUE LE SPORT LE PLUS POPULAIRE PAR REGION
+
+L'utilisateur choisis :
+    - L'année
+    - La catégorie
+    - La sexe
+
+
+=> On génère une cartre avec pour chaque région de france le sport le plus populaire
 
 
 A FAIRE :
 
 Faire plusieurs pages
 Rendre le tout jolie avec du css
+Stats sur france et sport en général (trop de calcul ?)
