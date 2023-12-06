@@ -59,100 +59,64 @@ app.layout = html.Div(
         # Input("year-slider", "value"),
     ],
 )
-def update_histogram(selected_sport, selected_location):  # , selected_year):
-    filtered_df = df[
-        (df["nom_fed"] == selected_sport)
-        & (df["libelle"] == selected_location)
-        # & (df["Year"] == selected_year)
-    ]
+def update_histogram(selected_sport, selected_location):
+    wide_df = generate_plotly_data(selected_sport, selected_location)
 
-    # Define age-related columns based on your CSV fields
-    age_columns = [
-        "l_0_4_2019",
-        "l_5_9_2019",
-        "l_10_14_2019",
-        "l_15_19_2019",
-        "l_20_29_2019",
-        "l_30_44_2019",
-        "l_45_59_2019",
-        "l_60_74_2019",
-        "l_75_2019",
-    ]
+    # Use color_discrete_map to specify colors for Female and Male
+    color_discrete_map = {"Female": "pink", "Male": "blue"}
 
-    male_columns = [
-        "l_0_4_h_2019",
-        "l_5_9_h_2019",
-        "l_10_14_h_2019",
-        "l_15_19_h_2019",
-        "l_20_29_h_2019",
-        "l_30_44_h_2019",
-        "l_45_59_h_2019",
-        "l_60_74_h_2019",
-        "l_75_h_2019",
-    ]
-
-    female_columns = [
-        "l_0_4_f_2019",
-        "l_5_9_f_2019",
-        "l_10_14_f_2019",
-        "l_15_19_f_2019",
-        "l_20_29_f_2019",
-        "l_30_44_f_2019",
-        "l_45_59_f_2019",
-        "l_60_74_f_2019",
-        "l_75_f_2019",
-    ]
-
-    # Create color map to change the color of Male and Female bars
-    color_map = {
-        "l_0_4_h_2019": "blue",
-        "l_5_9_h_2019": "blue",
-        "l_10_14_h_2019": "blue",
-        "l_15_19_h_2019": "blue",
-        "l_20_29_h_2019": "blue",
-        "l_30_44_h_2019": "blue",
-        "l_45_59_h_2019": "blue",
-        "l_60_74_h_2019": "blue",
-        "l_75_h_2019": "blue",
-        "l_0_4_f_2019": "pink",
-        "l_5_9_f_2019": "pink",
-        "l_10_14_f_2019": "pink",
-        "l_15_19_f_2019": "pink",
-        "l_20_29_f_2019": "pink",
-        "l_30_44_f_2019": "pink",
-        "l_45_59_f_2019": "pink",
-        "l_60_74_f_2019": "pink",
-        "l_75_f_2019": "pink",
-    }
-
-    # Create a new column "Gender" based on the available male and female columns
-    filtered_df["Gender"] = filtered_df[male_columns].sum(axis=1) - filtered_df[
-        female_columns
-    ].sum(axis=1)
-
-    # Reshape the DataFrame for stacked histograms
-    stacked_df = pd.melt(
-        filtered_df,
-        id_vars=["Gender"],
-        value_vars=male_columns + female_columns,
-        var_name="Age",
-        value_name="Licensees",
-    )
-
-    # Create histogram using Plotly Express
     fig = px.bar(
-        stacked_df,
+        wide_df,
         x="Age",
-        y="Licensees",
-        color="Gender",
-        color_discrete_map=color_map,
-        labels={"Licensees": "Number of Licensees", "Age": "Age Group"},
-        title=f"Licensees Distribution for {selected_sport} in {selected_location}",  # ({selected_year})",
-        barmode="stack",
-        category_orders={"Age": age_columns},
+        y=["Female", "Male"],
+        color_discrete_map=color_discrete_map,
     )
 
     return fig
+
+
+def generate_plotly_data(federation_name, commune_name):
+    # Filter the data based on the provided federation and commune
+    filtered_data = df[
+        (df["nom_fed"] == federation_name) & (df["libelle"] == commune_name)
+    ]
+
+    # Define age categories
+    age_categories = [
+        "0_4",
+        "5_9",
+        "10_14",
+        "15_19",
+        "20_29",
+        "30_44",
+        "45_59",
+        "60_74",
+        "75",
+    ]
+
+    # Initialize empty lists for female and male data
+    female_data = []
+    male_data = []
+
+    # Iterate through age categories
+    for age_category in age_categories:
+        female_col = f"l_{age_category}_f_2019"
+        male_col = f"l_{age_category}_h_2019"
+
+        # Extract female and male data for the specific age category
+        female_count = filtered_data[female_col].values[0]
+        male_count = filtered_data[male_col].values[0]
+
+        # Append data to respective lists
+        female_data.append(female_count)
+        male_data.append(male_count)
+
+    # Create a new DataFrame in wide-format
+    wide_format_data = pd.DataFrame(
+        {"Age": age_categories, "Female": female_data, "Male": male_data}
+    )
+
+    return wide_format_data
 
 
 if __name__ == "__main__":
