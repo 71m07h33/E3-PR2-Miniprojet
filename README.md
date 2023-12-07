@@ -53,3 +53,4 @@ A FAIRE :
 Faire plusieurs pages
 Rendre le tout jolie avec du css
 Stats sur france et sport en général (trop de calcul ?)
+Supprimer lignes sports problématiques
