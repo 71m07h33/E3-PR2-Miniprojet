@@ -8,13 +8,13 @@ df_2018 = pd.read_csv("./Data/lic-data-2018.csv", delimiter=";", encoding="latin
 df_2017 = pd.read_csv("./Data/lic-data-2017.csv", delimiter=";", encoding="latin1")
 df_2016 = pd.read_csv("./Data/lic-data-2016.csv", delimiter=";", encoding="latin1")
 
-# Data normalization
-df_2016["nom_fed"] = df_2016["nom_fed"].str.replace(
-    "Fédération Française", "FF", regex=False, case=False
-)
-df_2017["nom_fed"] = df_2017["nom_fed"].str.replace(
-    "Fédération Française", "FF", regex=False, case=False
-)
+data_treatement()
+
+nd_2019 = pd.read_csv("./Data/nd-2019.csv", delimiter=";", encoding="latin1")
+nd_2018 = pd.read_csv("./Data/nd-2018.csv", delimiter=";", encoding="latin1")
+nd_2017 = pd.read_csv("./Data/nd-2017.csv", delimiter=";", encoding="latin1")
+nd_2016 = pd.read_csv("./Data/nd-2016.csv", delimiter=";", encoding="latin1")
+
 
 year_mapping = {
     2019: df_2019,
@@ -73,6 +73,37 @@ def generate_plotly_data(df, federation_name, commune_name, selected_year):
     )
 
     return wide_format_data
+
+
+def data_treatement():
+    # Data normalization
+    df_2016["nom_fed"] = df_2016["nom_fed"].str.replace(
+        "Fédération Française", "FF", regex=False, case=False
+    )
+    df_2017["nom_fed"] = df_2017["nom_fed"].str.replace(
+        "Fédération Française", "FF", regex=False, case=False
+    )
+
+    # Suppression sport incompatible
+    federation_list_path = "./Data/liste-federation.xlsx"
+    federation_list_excel = pd.ExcelFile(federation_list_path)
+
+    # Iterate through each sheet and convert to CSV
+    for sheet_name in federation_list_excel.sheet_names:
+        # Read the sheet
+        nd = pd.read_excel(federation_list_path, sheet_name)
+
+        # Specify the path for the CSV file (adjust the path and file name as needed)
+        csv_file_path = f"./Data/nd-{sheet_name}.csv"
+
+        # Write the sheet to CSV
+        nd.to_csv(csv_file_path, index=False)
+
+    # On vient de créer les fichiers csv qui nous interessent
+    # Reste à les parse pour faire une liste de sport problématique et les supprimer de nos datas
+
+    # Parse la collone des nd, si nd, retourner 2 cases en arrières et get FF
+    # Faire une liste de FF à supprimer, puis supp FF de fédé 2019
 
 
 # supprimer sport problématique pre app
