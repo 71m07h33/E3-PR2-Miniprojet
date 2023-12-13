@@ -1,5 +1,5 @@
 import plotly.express as px
-from data_processing import year_mapping, generate_plotly_data
+from Helper.data_processing import year_mapping, generate_plotly_data
 
 
 def update_histogram(selected_sport, selected_location, selected_year):

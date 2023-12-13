@@ -28,19 +28,13 @@ if __name__ == "__main__":
     # Data nombres licenciés
     download_file(
         "https://www.data.gouv.fr/fr/datasets/r/b62c05d2-6b45-44e0-80a4-6e10e3f14ec6",
+        "lic-data-2021.csv",
+    )
+    download_file(
+        "https://www.data.gouv.fr/fr/datasets/r/1eb1e7c9-27c4-4834-b8b6-cf63b45ee74b",
+        "lic-data-2020.csv",
+    )
+    download_file(
+        "https://www.data.gouv.fr/fr/datasets/r/9b002e32-0ec9-40fc-9292-cddeae4416c6",
         "lic-data-2019.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/f3970a7b-df0e-4c3e-9f36-c93da58f4a3e",
-        "lic-data-2018.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/523892b6-1eca-4680-ac4a-e93d3a896161",
-        "lic-data-2017.csv",
-    )
-
-    # Permet de savoir si la donée existe ou non. Associer au code de fédération
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/e8b9085e-f9d7-4439-9e0d-8e6ede46097b",
-        "liste-federation.xlsx",
     )

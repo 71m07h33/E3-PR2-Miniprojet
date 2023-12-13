@@ -3,40 +3,49 @@ import pandas as pd
 
 
 # Load the CSV data
-df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="latin1")
-df_2018 = pd.read_csv("./Data/lic-data-2018.csv", delimiter=";", encoding="latin1")
-df_2017 = pd.read_csv("./Data/lic-data-2017.csv", delimiter=";", encoding="latin1")
+df_2021 = pd.read_csv("./Data/lic-data-2021.csv", delimiter=";", encoding="utf-8")
+df_2020 = pd.read_csv("./Data/lic-data-2020.csv", delimiter=";", encoding="utf-8")
+df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="utf-8")
 
 # create nd csv files but they are empty for now
-for year in range(2017, 2020, 1):
-    nd = open(f"./Data/nd-{year}.csv")
+for year in range(2019, 2022, 1):
+    nd = open(f"./Data/nd-{year}.csv", "w")
     nd.close()
 
 
 year_mapping = {
+    2021: df_2021,
+    2020: df_2020,
     2019: df_2019,
-    2018: df_2018,
-    2017: df_2017,
 }
 
 
 def generate_plotly_data(df, federation_name, commune_name, selected_year):
     # Filter the data based on the provided federation and commune
     filtered_data = df[
-        (df["nom_fed"] == federation_name) & (df["libelle"] == commune_name)
+        (df["Fédération"] == federation_name) & (df["Commune"] == commune_name)
     ]
 
     # Define age categories
     age_categories = [
-        "0_4",
-        "5_9",
-        "10_14",
-        "15_19",
-        "20_29",
-        "30_44",
-        "45_59",
-        "60_74",
-        "75",
+        "1 à 4 ans",
+        "5 à 9 ans",
+        "10 à 14 ans",
+        "15 à 19 ans",
+        "20 à 24 ans",
+        "25 à 29 ans",
+        "30 à 34 ans",
+        "35 à 39 ans",
+        "40 à 44 ans",
+        "45 à 49 ans",
+        "50 à 54 ans",
+        "55 à 59 ans",
+        "60 à 64 ans",
+        "65 à 69 ans",
+        "70 à 74 ans",
+        "75 à 79 ans",
+        "80 à 99 ans",
+        "NR",
     ]
 
     # Initialize empty lists for female and male data
@@ -46,8 +55,8 @@ def generate_plotly_data(df, federation_name, commune_name, selected_year):
 
     # Iterate through age categories
     for age_category in age_categories:
-        female_col = f"l_{age_category}_f_{selected_year}"
-        male_col = f"l_{age_category}_h_{selected_year}"
+        female_col = f"F - {age_category}"
+        male_col = f"H - {age_category}"
 
         # Extract female and male data for the specific age category
         female_count = filtered_data[female_col].values[0]
@@ -72,11 +81,6 @@ def generate_plotly_data(df, federation_name, commune_name, selected_year):
 
 
 def data_treatement():
-    # Data normalization
-    df_2017["nom_fed"] = df_2017["nom_fed"].str.replace(
-        "Fédération Française", "FF", regex=False, case=False
-    )
-
     # Suppression sport incompatible
     federation_list_path = "./Data/liste-federation.xlsx"
     federation_list_excel = pd.ExcelFile(federation_list_path)
@@ -99,8 +103,8 @@ def data_treatement():
     federations_with_nd = []
 
     federations_with_nd += get_federations_with_nd("./Data/nd-2019.csv")
-    federations_with_nd += get_federations_with_nd("./Data/nd-2018.csv")
-    federations_with_nd += get_federations_with_nd("./Data/nd-2017.csv")
+    federations_with_nd += get_federations_with_nd("./Data/nd-2020.csv")
+    federations_with_nd += get_federations_with_nd("./Data/nd-2021.csv")
     # Supprimer doublon
     # Si temps, rajouter 2016
 

@@ -54,3 +54,8 @@ Faire plusieurs pages
 Rendre le tout jolie avec du css
 Stats sur france et sport en général (trop de calcul ?)
 Supprimer lignes sports problématiques
+
+
+ELEMENT 3 : EVOLUTION
+
+-> Evolution de de la partique du sport sur 3 ans sur la région

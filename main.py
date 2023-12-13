@@ -1,6 +1,6 @@
 import dash
-from layouts import set_layout
-from callbacks import set_callbacks
+from Components.layouts import set_layout
+from Components.callbacks import set_callbacks
 
 # Create Dash app
 app = dash.Dash(__name__)

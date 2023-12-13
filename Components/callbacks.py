@@ -1,6 +1,6 @@
 from dash import Dash, Input, Output
-from histogram import update_histogram
-from heatmap import update_heatmap
+from Dashboard.histogram import update_histogram
+from Dashboard.heatmap import update_heatmap
 
 
 def set_callbacks(app: Dash):

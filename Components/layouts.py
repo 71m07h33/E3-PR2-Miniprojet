@@ -1,5 +1,5 @@
 from dash import dcc, html
-from data_processing import year_mapping
+from Helper.data_processing import year_mapping
 
 
 def set_layout(app):
@@ -12,9 +12,9 @@ def set_layout(app):
                 id="sport-dropdown",
                 options=[
                     {"label": sport, "value": sport}
-                    for sport in year_mapping.get(2019)["nom_fed"].unique()
+                    for sport in year_mapping.get(2019)["Fédération"].unique()
                 ],
-                value=year_mapping.get(2019)["nom_fed"].unique()[
+                value=year_mapping.get(2019)["Fédération"].unique()[
                     0
                 ],  # Default selection
                 multi=False,
@@ -23,23 +23,21 @@ def set_layout(app):
             # Dropdown for selecting a location
             dcc.Dropdown(
                 id="location-dropdown",
-                options=[
-                    {"label": location, "value": location}
-                    for location in year_mapping.get(2019)["libelle"].unique()
-                ],
-                value=year_mapping.get(2019)["libelle"].unique()[
-                    0
-                ],  # Default selection
+                options=year_mapping.get(2019)["Commune"].unique(),
+                # Default selection
+                value=year_mapping.get(2019)["Commune"].unique()[0],
                 multi=False,
                 style={"width": "50%"},
             ),
             # Slider for selecting a year
             dcc.Slider(
                 id="year-slider",
-                min=2017,
-                max=2019,
+                min=2019,
+                max=2021,
                 value=2019,
-                marks={str(year): str(year) for year in range(2017, 2020)},
+                marks={
+                    str(year): str(year) for year in range(2019, 2022)
+                },  # ETENDRE A 2017 PUIS 2014 SI FONCTIONNELLE ET TEMPS
                 step=1,
             ),
             # Histogram with Plotly Express
