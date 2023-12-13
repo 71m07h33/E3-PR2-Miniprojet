@@ -36,10 +36,10 @@ def set_layout(app):
             # Slider for selecting a year
             dcc.Slider(
                 id="year-slider",
-                min=2016,
+                min=2017,
                 max=2019,
                 value=2019,
-                marks={str(year): str(year) for year in range(2016, 2020)},
+                marks={str(year): str(year) for year in range(2017, 2020)},
                 step=1,
             ),
             # Histogram with Plotly Express

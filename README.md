@@ -17,7 +17,7 @@ ELEMENT 1 : HISTOGRAMME COMPOSITION DES SPORTS EN FONCTIONS DE L'AGE ET DU SEXE
 L'utilisateur choisis :
     - Le sport
     - La localisation
-    - L'année (Entre 2016 et 2019)
+    - L'année (Entre 2017 et 2019)
 
 => On génère un histogramme avec le nombre de licenciés dans un sport dans une région en fonction de l'âge (Homme, Femme pour chaque catégorie d'âge)
     => Générer une animation à travers les années

@@ -27,7 +27,7 @@ def download_file(url, filename):
 if __name__ == "__main__":
     # Data nombres licenciés
     download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/1825fde3-a668-47e3-a46d-b62b5af6560a",
+        "https://www.data.gouv.fr/fr/datasets/r/b62c05d2-6b45-44e0-80a4-6e10e3f14ec6",
         "lic-data-2019.csv",
     )
     download_file(
@@ -37,28 +37,6 @@ if __name__ == "__main__":
     download_file(
         "https://www.data.gouv.fr/fr/datasets/r/523892b6-1eca-4680-ac4a-e93d3a896161",
         "lic-data-2017.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/67e7edcc-112e-415a-aea0-07fcabd03e83",
-        "lic-data-2016.csv",
-    )
-
-    # Data nombre clubs
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/419b4123-f213-4e54-a02e-ca9535c6df35",
-        "clubs-data-2019.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/9348012d-9baa-451b-89e1-55817837c521",
-        "clubs-data-2018.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/33d0b1a2-b939-443c-80a2-367c5b7d138d",
-        "clubs-data-2017.csv",
-    )
-    download_file(
-        "https://www.data.gouv.fr/fr/datasets/r/198ee5d6-4b35-49de-bda2-d49161a6e611",
-        "clubs-data-2016.csv",
     )
 
     # Permet de savoir si la donée existe ou non. Associer au code de fédération

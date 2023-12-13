@@ -6,21 +6,17 @@ import pandas as pd
 df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="latin1")
 df_2018 = pd.read_csv("./Data/lic-data-2018.csv", delimiter=";", encoding="latin1")
 df_2017 = pd.read_csv("./Data/lic-data-2017.csv", delimiter=";", encoding="latin1")
-df_2016 = pd.read_csv("./Data/lic-data-2016.csv", delimiter=";", encoding="latin1")
 
-data_treatement()
-
-nd_2019 = pd.read_csv("./Data/nd-2019.csv", delimiter=";", encoding="latin1")
-nd_2018 = pd.read_csv("./Data/nd-2018.csv", delimiter=";", encoding="latin1")
-nd_2017 = pd.read_csv("./Data/nd-2017.csv", delimiter=";", encoding="latin1")
-nd_2016 = pd.read_csv("./Data/nd-2016.csv", delimiter=";", encoding="latin1")
+# create nd csv files but they are empty for now
+for year in range(2017, 2020, 1):
+    nd = open(f"./Data/nd-{year}.csv")
+    nd.close()
 
 
 year_mapping = {
     2019: df_2019,
     2018: df_2018,
     2017: df_2017,
-    2016: df_2016,
 }
 
 
@@ -77,9 +73,6 @@ def generate_plotly_data(df, federation_name, commune_name, selected_year):
 
 def data_treatement():
     # Data normalization
-    df_2016["nom_fed"] = df_2016["nom_fed"].str.replace(
-        "Fédération Française", "FF", regex=False, case=False
-    )
     df_2017["nom_fed"] = df_2017["nom_fed"].str.replace(
         "Fédération Française", "FF", regex=False, case=False
     )
@@ -94,16 +87,51 @@ def data_treatement():
         nd = pd.read_excel(federation_list_path, sheet_name)
 
         # Specify the path for the CSV file (adjust the path and file name as needed)
+
         csv_file_path = f"./Data/nd-{sheet_name}.csv"
 
         # Write the sheet to CSV
         nd.to_csv(csv_file_path, index=False)
 
-    # On vient de créer les fichiers csv qui nous interessent
-    # Reste à les parse pour faire une liste de sport problématique et les supprimer de nos datas
+        # On vient de créer les fichiers csv qui nous interessent
+        # Reste à les parse pour faire une liste de sport problématique et les supprimer de nos datas
 
+    federations_with_nd = []
+
+    federations_with_nd += get_federations_with_nd("./Data/nd-2019.csv")
+    federations_with_nd += get_federations_with_nd("./Data/nd-2018.csv")
+    federations_with_nd += get_federations_with_nd("./Data/nd-2017.csv")
+    # Supprimer doublon
+    # Si temps, rajouter 2016
+
+    remove_rows_by_federation("./Data/lic-data-2019.csv", federations_with_nd)
+    # Si on supprime de 2019, on ne le propose plus a l'utilisateur donc plus de problème
     # Parse la collone des nd, si nd, retourner 2 cases en arrières et get FF
     # Faire une liste de FF à supprimer, puis supp FF de fédé 2019
+
+
+def get_federations_with_nd(filename):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(filename)
+
+    # Filter rows where "lic-data-2019" column has the value "n.d."
+    filtered_df = df[df["lic-data-2019"] == "n.d."]
+
+    # Extract the "Libellé fédération" values from the filtered rows
+    federations_with_nd = filtered_df["Code fédération"].tolist()
+
+    return federations_with_nd
+
+
+def remove_rows_by_federation(csv_filename, federations_to_remove):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(csv_filename)
+
+    # Filter rows where "fed_2019" is not in the provided list
+    filtered_df = df[~df["fed_2019"].isin(federations_to_remove)]
+
+    # Write the filtered DataFrame back to the CSV file
+    filtered_df.to_csv(csv_filename, index=False)
 
 
 # supprimer sport problématique pre app
