@@ -1,5 +1,6 @@
 from dash import Dash, Input, Output
 from Dashboard.histogram import update_histogram
+from Dashboard.linechart import update_linechart
 from Dashboard.heatmap import update_heatmap
 
 
@@ -15,6 +16,22 @@ def set_callbacks(app: Dash):
     )
     def callback_histogram(selected_sport, selected_location, selected_year):
         return update_histogram(selected_sport, selected_location, selected_year)
+
+    @app.callback(
+        Output("graph", "figure"),
+        [
+            Input("sport-dropdown", "value"),
+            Input("location-dropdown", "value"),
+            Input("age-dropdown", "value"),
+            Input("gender-dropdown", "value"),
+        ],
+    )
+    def callback_linechart(
+        selected_sport, selected_location, selected_age, selected_gender
+    ):
+        return update_linechart(
+            selected_sport, selected_location, selected_age, selected_gender
+        )
 
     # Define callback to update heatmap based on user inputs
     # @app.callback(

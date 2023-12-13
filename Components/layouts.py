@@ -1,5 +1,5 @@
 from dash import dcc, html
-from Helper.data_processing import year_mapping
+from Helper.data_processing import year_mapping, age_categories
 
 
 def set_layout(app):
@@ -42,5 +42,24 @@ def set_layout(app):
             ),
             # Histogram with Plotly Express
             dcc.Graph(id="histogram"),
+            # Dropdown for an age group to study
+            dcc.Dropdown(
+                id="age-dropdown",
+                options=age_categories,
+                # Default selection
+                value="10 à 14 ans",
+                multi=False,
+                style={"width": "50%"},
+            ),
+            # Drop for a gender
+            dcc.Dropdown(
+                id="gender-dropdown",
+                options=["H", "F"],
+                value="H",
+                multi=False,
+                style={"width": "50%"},
+            ),
+            # Line chart for sport's evolution thourghout the years
+            dcc.Graph(id="graph"),
         ]
     )
