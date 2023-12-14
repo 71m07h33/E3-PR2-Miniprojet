@@ -14,9 +14,8 @@ def set_layout(app):
                     {"label": sport, "value": sport}
                     for sport in year_mapping.get(2019)["Fédération"].unique()
                 ],
-                value=year_mapping.get(2019)["Fédération"].unique()[
-                    0
-                ],  # Default selection
+                # Default selection
+                value="FF de Ski",
                 multi=False,
                 style={"width": "50%"},
             ),
@@ -25,7 +24,7 @@ def set_layout(app):
                 id="location-dropdown",
                 options=year_mapping.get(2019)["Commune"].unique(),
                 # Default selection
-                value=year_mapping.get(2019)["Commune"].unique()[0],
+                value="Chamonix-Mont-Blanc",
                 multi=False,
                 style={"width": "50%"},
             ),

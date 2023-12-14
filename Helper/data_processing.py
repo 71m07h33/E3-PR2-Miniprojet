@@ -101,10 +101,7 @@ def generate_linechart_data(federation_name, commune_name, age, gender):
         licensees_data.append(filtered_data[data_wanted].values[0])
 
     wide_format_data = pd.DataFrame(
-        {
-            "Years": year_mapping.keys,
-            "Licensees": licensees_data,
-        }
+        {"Years": year_mapping.keys(), "Licensees": licensees_data, "Gender": gender}
     )
 
     return wide_format_data

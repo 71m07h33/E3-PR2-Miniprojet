@@ -8,10 +8,12 @@ def update_linechart(selected_sport, selected_location, selected_age, selected_g
         selected_sport, selected_location, selected_age, selected_gender
     )
 
-    fig = px.line(wide_df, x="Years", y="Licensees", markers=True)
+    fig = px.line(wide_df, x="Years", y="Licensees")
 
     fig.update_layout(
         title=f"Evolution des licenciés à {selected_location} en {selected_sport}",
         xaxis_title="Années",
         yaxis_title="Licenciés",
     )
+
+    return fig
