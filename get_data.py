@@ -38,3 +38,9 @@ if __name__ == "__main__":
         "https://www.data.gouv.fr/fr/datasets/r/9b002e32-0ec9-40fc-9292-cddeae4416c6",
         "lic-data-2019.csv",
     )
+
+    # Data géolocalisation
+    download_file(
+        "https://www.data.gouv.fr/fr/datasets/r/dbe8a621-a9c4-4bc3-9cae-be1699c5ff25",
+        "geolocalisation.csv",
+    )

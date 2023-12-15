@@ -6,7 +6,17 @@ def set_layout(app):
     # Define the layout of the app
     app.layout = html.Div(
         [
-            html.H1("Licensees Dashboard"),
+            html.H1("Qui fait du sport aujourd'hui en France ?"),
+            html.Div(
+                [
+                    html.P(
+                        "Ceci est mon premier paragraphe introductif : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et congue elit. Vestibulum in risus lacinia tortor pharetra aliquam non vel ex. Proin at diam justo. Nulla odio purus, rutrum nec dolor sed, iaculis interdum leo. Nulla massa sem, sagittis eget lorem a, gravida luctus orci"
+                    ),
+                    html.P(
+                        "Ceci est mon decuième paragraphe introductif : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et congue elit. Vestibulum in risus lacinia tortor pharetra aliquam non vel ex. Proin at diam justo. Nulla odio purus, rutrum nec dolor sed, iaculis interdum leo. Nulla massa sem, sagittis eget lorem a, gravida luctus orci"
+                    ),
+                ]
+            ),
             # Dropdown for selecting a sport
             dcc.Dropdown(
                 id="sport-dropdown",

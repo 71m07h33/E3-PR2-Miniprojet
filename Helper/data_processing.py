@@ -7,12 +7,6 @@ df_2021 = pd.read_csv("./Data/lic-data-2021.csv", delimiter=";", encoding="utf-8
 df_2020 = pd.read_csv("./Data/lic-data-2020.csv", delimiter=";", encoding="utf-8")
 df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="utf-8")
 
-# create nd csv files but they are empty for now
-for year in range(2019, 2022, 1):
-    nd = open(f"./Data/nd-{year}.csv", "w")
-    nd.close()
-
-
 year_mapping = {
     2021: df_2021,
     2020: df_2020,
