@@ -3,6 +3,9 @@ import pandas as pd
 
 
 # Load the CSV data
+geolocalisation_df = pd.read_csv(
+    "./Data/geolocalisation.csv", delimiter=",", encoding="utf-8"
+)
 df_2021 = pd.read_csv("./Data/lic-data-2021.csv", delimiter=";", encoding="utf-8")
 df_2020 = pd.read_csv("./Data/lic-data-2020.csv", delimiter=";", encoding="utf-8")
 df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="utf-8")
@@ -31,7 +34,6 @@ age_categories = [
     "70 à 74 ans",
     "75 à 79 ans",
     "80 à 99 ans",
-    "NR",
 ]
 
 
@@ -73,7 +75,6 @@ def generate_histogram_data(df, federation_name, commune_name, selected_year):
     return wide_format_data
 
 
-# LINE CHART FAIT CRASH LE DASHBOARD
 def generate_linechart_data(federation_name, commune_name, age, gender):
     # Data wanted
     data_wanted = f"{gender} - {age}"
@@ -99,3 +100,28 @@ def generate_linechart_data(federation_name, commune_name, age, gender):
     )
 
     return wide_format_data
+
+
+def generate_heatmap_data(federation_name, selected_year, wanted_data):
+    # Choose the correct csv file
+    licensees_df = year_mapping.get(selected_year)
+
+    merged_df = pd.merge(
+        licensees_df,
+        geolocalisation_df,
+        left_on="Code Commune",
+        right_on="code_commune_INSEE",
+        how="inner",  # left
+    )
+
+    print(merged_df.head(10))
+
+    # Wanted columns
+    wanted_columns = [wanted_data, "latitude", "longitude", "Code Commune"]
+
+    filtered_data = merged_df[(merged_df["Fédération"] == federation_name)]
+    filtered_data = filtered_data[wanted_columns]
+
+    print(filtered_data.head(10))
+
+    return filtered_data

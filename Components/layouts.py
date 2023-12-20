@@ -1,5 +1,6 @@
 from dash import dcc, html
 from Helper.data_processing import year_mapping, age_categories
+from Dashboard.heatmap import update_heatmap
 
 
 def set_layout(app):
@@ -70,5 +71,12 @@ def set_layout(app):
             ),
             # Line chart for sport's evolution thourghout the years
             dcc.Graph(id="graph"),
+            html.H1("Carte Folium"),
+            html.Iframe(
+                id="heatmap",
+                srcDoc=update_heatmap("FF de Ski", 2019, "10 à 14 ans", "H"),
+                width="50%",
+                height="400",
+            ),
         ]
     )

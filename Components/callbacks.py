@@ -34,12 +34,16 @@ def set_callbacks(app: Dash):
         )
 
     # Define callback to update heatmap based on user inputs
-    # @app.callback(
-    #    Output("heatmap", "figure"),
-    #    [
-    #        Input("sport-dropdown", "value"),
-    #        Input("year-slider", "value"),
-    #    ],
-    # )
-    # def callback_heatmap(selected_sport, selected_year):
-    #    return update_heatmap(selected_sport, selected_year)
+    @app.callback(
+        Output("heatmap", "srcDoc"),
+        [
+            Input("sport-dropdown", "value"),
+            Input("year-slider", "value"),
+            Input("age-dropdown", "value"),
+            Input("gender-dropdown", "value"),
+        ],
+    )
+    def callback_heatmap(selected_sport, selected_year, selected_age, selected_gender):
+        return update_heatmap(
+            selected_sport, selected_year, selected_age, selected_gender
+        )

@@ -25,6 +25,9 @@ def download_file(url, filename):
 
 
 if __name__ == "__main__":
+    # Créer le chemin Data
+    os.mkdir("./Data")
+
     # Data nombres licenciés
     download_file(
         "https://www.data.gouv.fr/fr/datasets/r/b62c05d2-6b45-44e0-80a4-6e10e3f14ec6",
