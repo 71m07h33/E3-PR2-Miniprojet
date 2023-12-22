@@ -12,14 +12,18 @@ def update_heatmap(selected_sport, selected_year, selected_age, selected_gender)
 
     # Creation de la dataframe
     df = generate_heatmap_data(selected_sport, selected_year, wanted_data)
+    print(df)
 
     for row in df.iterrows():
-        commune = row[1][3]
-        latitude = row[1][1]
-        longitude = row[1][2]
-        radius = row[1][0]
+        commune = row[1][0]
+        latitude = row[1][2]
+        longitude = row[1][3]
+        radius = row[1][1]
 
         print(f"commune : {commune}")
+        print(f"latitude : {latitude}")
+        print(f"Longitude : {longitude}")
+        print(f"Licensiées : {radius}\n\n")
 
         folium.CircleMarker(
             location=(latitude, longitude),

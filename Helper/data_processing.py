@@ -1,11 +1,13 @@
 # data_processing.py
 import pandas as pd
+import requests
 
+# Define the API endpoint
+geolocalisation_json = requests.get(
+    "https://geo.api.gouv.fr/communes?fields=code,nom,centre"
+).json()
 
 # Load the CSV data
-geolocalisation_df = pd.read_csv(
-    "./Data/geolocalisation.csv", delimiter=",", encoding="utf-8"
-)
 df_2021 = pd.read_csv("./Data/lic-data-2021.csv", delimiter=";", encoding="utf-8")
 df_2020 = pd.read_csv("./Data/lic-data-2020.csv", delimiter=";", encoding="utf-8")
 df_2019 = pd.read_csv("./Data/lic-data-2019.csv", delimiter=";", encoding="utf-8")
@@ -35,6 +37,11 @@ age_categories = [
     "75 à 79 ans",
     "80 à 99 ans",
 ]
+
+# Create a dictionary with commune codes as keys and coordinates as values
+coordinates_dict = coordinates_dict = {
+    entry["code"]: entry["centre"]["coordinates"] for entry in geolocalisation_json
+}
 
 
 def generate_histogram_data(df, federation_name, commune_name, selected_year):
@@ -103,25 +110,37 @@ def generate_linechart_data(federation_name, commune_name, age, gender):
 
 
 def generate_heatmap_data(federation_name, selected_year, wanted_data):
-    # Choose the correct csv file
-    licensees_df = year_mapping.get(selected_year)
+    df = year_mapping.get(selected_year)
 
-    merged_df = pd.merge(
-        licensees_df,
-        geolocalisation_df,
-        left_on="Code Commune",
-        right_on="code_commune_INSEE",
-        how="inner",  # left
-    )
+    # Create an empty DataFrame to store the results
+    heatmap_df = pd.DataFrame(columns=["Commune", "Licensees", "Latitude", "Longitude"])
 
-    print(merged_df.head(10))
+    # Iterate over each row in df
+    for index, row in df.iterrows():
+        if row["Fédération"] == federation_name:
+            # Make an API request for each commune
+            code = str(row["Code Commune"])
+            padded_code = code.zfill(5)
 
-    # Wanted columns
-    wanted_columns = [wanted_data, "latitude", "longitude", "Code Commune"]
+            if coordinates_dict.get(padded_code) is not None:
+                # Separate longitude and latitude
+                longitude, latitude = coordinates_dict.get(padded_code)
+                nombre_licensies = row[wanted_data]
 
-    filtered_data = merged_df[(merged_df["Fédération"] == federation_name)]
-    filtered_data = filtered_data[wanted_columns]
+                # Correct usage of append
+                heatmap_df = pd.concat(
+                    [
+                        heatmap_df,
+                        pd.DataFrame(
+                            {
+                                "Commune": [padded_code],
+                                "Licensees": [nombre_licensies],
+                                "Latitude": [latitude],
+                                "Longitude": [longitude],
+                            }
+                        ),
+                    ],
+                    ignore_index=True,
+                )
 
-    print(filtered_data.head(10))
-
-    return filtered_data
+    return heatmap_df
