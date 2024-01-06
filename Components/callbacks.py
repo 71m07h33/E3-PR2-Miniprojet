@@ -43,25 +43,4 @@ def set_callbacks(app: Dash):
     )
     def callback_camembert(selected_location):
         return update_camembert(selected_location)
-        
-
-
-    # @app.callback(
-    #     Output('histogram_pop', 'figure'),
-    #     [
-    #         Input('year-slider', 'value'),
-    #         Input('location-dropdown', 'value')
-    #     ]
-    # )
-    # def callback_histogrampop( selected_location, selected_year):
-    #     return update_histogrampop( selected_location, selected_year)
-    # Define callback to update heatmap based on user inputs
-    # @app.callback(
-    #    Output("heatmap", "figure"),
-    #    [
-    #        Input("sport-dropdown", "value"),
-    #        Input("year-slider", "value"),
-    #    ],
-    # )
-    # def callback_heatmap(selected_sport, selected_year):
-    #    return update_heatmap(selected_sport, selected_year)
+    

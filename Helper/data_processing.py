@@ -100,39 +100,6 @@ def generate_camembert_data(commune_name):
     return percentages
         
 
-
-
-
-# def generate_histogram_pop_data(df, selected_location, selected_year):
-# # Filter the data based on the provided location
-
-#     filtered_data = df[df['Location'] == selected_location]
-
-#     # Initialize empty lists for female and male data
-#     female_data = []
-#     male_data = []
-#     year_values = []
-#     #initialise la somme de toutes le femmes
-#     count_female = 0
-
-#      # Collect female and male data for the selected location and year
-#     #somme des femmes
-#     female_count = filtered_data[female_col].values[0]
-#     female_data = filtered_data['Female_Column_Name'].tolist()  # Remplacez 'Female_Column_Name' par le nom réel de votre colonne de données féminines
-#     male_data = filtered_data['Male_Column_Name'].tolist()  # Remplacez 'Male_Column_Name' par le nom réel de votre colonne de données masculines
-#     year_values.append(selected_year);
-#     # Create a new DataFrame in wide-format
-#     wide_format_data = pd.DataFrame(
-#         {
-#             "Female": female_data,
-#             "Male": male_data,
-#             "Year": year_values,
-#         }
-        
-#     )
-
-#     return wide_format_data
-
 # LINE CHART FAIT CRASH LE DASHBOARD
 def generate_linechart_data(federation_name, commune_name, age, gender):
     # Data wanted
