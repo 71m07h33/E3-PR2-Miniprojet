@@ -3,11 +3,11 @@ import plotly.express as px
 from Helper.data_processing import generate_camembert_data, year_mapping
 
 
-def update_camembert(location_dropdown_2    ):
+def update_camembert(location_dropdown_2, selected_year):
     
 
     wide_df = generate_camembert_data(
-         location_dropdown_2
+         location_dropdown_2, selected_year
     )
     labels = list(wide_df.keys())
     values = list(wide_df.values())
@@ -16,7 +16,7 @@ def update_camembert(location_dropdown_2    ):
         values=values,
         names=labels,
         title='Part of each Sport',
-        hole=.10,
+        hole=.5,
     )
 
     return fig

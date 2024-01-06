@@ -72,27 +72,24 @@ def generate_histogram_data(df, federation_name, commune_name, selected_year):
 
     return wide_format_data
 
-def generate_camembert_data(commune_name):
- 
-    #Dictionnary to stock stats
+def generate_camembert_data(commune_name, selected_year):
+    # Dictionnaire pour stocker les statistiques
     pop_data = {}
+    df = year_mapping[selected_year]
 
-    # Iterate through files
-    for year,df in year_mapping.items():
+    # Filtrer les données pour l'année et la commune sélectionnées
+    filtered_data = df[df["Commune"] == commune_name]
 
-        #filter for the data file
-        filtered_data = df[df["Commune"] == commune_name]
+    # Grouper par fédération et calculer la population totale pour chaque fédération
+    grouped = filtered_data.groupby("Fédération")["Total"].sum()
 
-        # Group by Federation and sum the total population for each federation
-        grouped = filtered_data.groupby("Fédération")["Total"].sum()
+    # Stocker les totaux pour chaque fédération dans le dictionnaire
+    for fed, total in grouped.items():
+        if fed not in pop_data:
+            pop_data[fed] = []
+        pop_data[fed].append(total)
 
-        # Store the totals for each federation in the dictionary
-        for fed, total in grouped.items():
-            if fed not in pop_data:
-                pop_data[fed] = []
-            pop_data[fed].append(total)
-
-    # Calculate percentages for each federation
+    # Calculer les pourcentages pour chaque fédération
     percentages = {fed: sum(values) for fed, values in pop_data.items()}
     total_population = sum(percentages.values())
     percentages = {fed: (total / total_population) * 100 for fed, total in percentages.items()}

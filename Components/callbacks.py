@@ -39,8 +39,9 @@ def set_callbacks(app: Dash):
     @app.callback(
         Output(component_id='camembert_graph', component_property='figure'),
         [Input(component_id='location_dropdown_2', component_property='value'),
+         Input(component_id='year-slider_2', component_property='value'),
         ],
     )
-    def callback_camembert(selected_location):
-        return update_camembert(selected_location)
+    def callback_camembert(selected_location, selected_year):
+        return update_camembert(selected_location, selected_year)
     
