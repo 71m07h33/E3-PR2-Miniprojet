@@ -51,7 +51,10 @@ L'utilisateur choisis : - Le sport dans le premier DROPDOWN - La localisation da
 
 ELEMENT 2 : CARTE DYNAMIQUE CONCENTRATION SPORTIF
 
-L'utilisateur choisis : - Le sport (Si aucun sport n'est choisis, on prendra le nombre totale de licenciés sur tout les sports) - L'information (Le nombre de clubs ou le nombre de licenciés ? (radio))
+L'utilisateur choisis :
+
+- Le sport (Si aucun sport n'est choisis, on prendra le nombre totale de licenciés sur tout les sports)
+- L'information (Le nombre de clubs ou le nombre de licenciés ? (radio))
 
 L'utilisateur peut filtrer : - En fonction de l'age - En fonction du sexe
 
@@ -68,17 +71,44 @@ ELEMENT 3 : CAMEMBERT DES ACTIVITÉS
 
 L'utilisateur choisis :
 
-- une commune
+- une commune dans le DROPDOWN
+- une année dans le SLIDER
 
 => on génère un camembert représentant l'ensemble des activités des Fédérations de la commune
-
-A FAIRE :
-
-Faire plusieurs pages
-Rendre le tout jolie avec du css
-Stats sur france et sport en général (trop de calcul ?)
-Supprimer lignes sports problématiques
+On peut cliquer sur la légende pour ne plus afficher une des Fédérations
 
 ELEMENT 3 : EVOLUTION
 
 -> Evolution de de la partique du sport sur 3 ans sur la région
+
+## DEVELOPER GUIDE
+
+### LE PROJET
+
+Le projet est constitué de 4 dossiers à sa racine :
+
+1. Components : le dossier où les @callback sont effectués et le layout de l'application
+
+2. Dashboard : le dossiers ou chaque élément du dashboard possède un fichier python. Le fichier python possède la fonction permettant de faire l'update de l'élément
+
+3. Data : le dossier data contient les fichiers .csv où sont stockées les données liées aux fédérations de chaques communes en France. Le dossier possède 3 ficher indiquant les données de 2019, 2020 et 2021
+
+4. Guides :
+
+### AJOUTER DU CODE
+
+Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
+
+1. créer le fichier python lié à l'élément dans le dossier Dashboard avec sa fonction
+
+2. ajouter les Div nécessaires dans le ficier layouts.py
+
+3. effectuer les @callback necessaires dans le fichier callback.py dans le dossier Components
+
+4. ajouter la fonction pour générer le nouvel élémennt dans le fichier data_processing.py
+
+### AJOUTER DES DONNEES
+
+1. ajouter le downloard necessaire dans le fichier get_data.py afin de pouvoir récupérer les données directement les données dans le projet en fournissant le lien vers le fichier csv à ajouter.
+
+!! vérifier que les nouvelles données possèdent le même modèle que les données déjà présentes !!

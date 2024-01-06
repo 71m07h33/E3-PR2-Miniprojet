@@ -15,8 +15,7 @@ def update_camembert(location_dropdown_2, selected_year):
     fig = px.pie(
         values=values,
         names=labels,
-        title='Part of each Sport',
-        hole=.5,
+        title=f"Part de chaque sport pratiqué à {location_dropdown_2}",
     )
 
     return fig
