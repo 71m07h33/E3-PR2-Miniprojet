@@ -14,7 +14,7 @@ def download_file(url, filename):
 
     if response.status_code == 200:
         # Extracting the filename from the URL
-        destination_path = os.path.join("./Data", filename)
+        destination_path = os.path.join("./Data", filename) # Probleme : creer dir data !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         with open(destination_path, "wb") as file:
             file.write(response.content)

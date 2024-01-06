@@ -70,5 +70,28 @@ def set_layout(app):
             ),
             # Line chart for sport's evolution thourghout the years
             dcc.Graph(id="graph"),
+            # Dropdown for selecting the location
+            dcc.Dropdown(
+                id='location_dropdown_2',
+                options=year_mapping.get(2019)["Commune"].unique(),
+                # Default selection
+                value="Chamonix-Mont-Blanc",
+                multi=False,
+                style={"width": "50%"},
+            ),
+             # Slider for selecting a year
+            dcc.Slider(
+                id="year-slider_2",
+                min=2019,
+                max=2021,
+                value=2019,
+                marks={
+                    str(year): str(year) for year in range(2019, 2022)
+                },  # ETENDRE A 2017 PUIS 2014 SI FONCTIONNELLE ET TEMPS
+                step=1,
+            ),
+            dcc.Graph(
+                id='camembert_graph'
+            ),
         ]
     )

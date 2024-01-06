@@ -72,6 +72,66 @@ def generate_histogram_data(df, federation_name, commune_name, selected_year):
 
     return wide_format_data
 
+def generate_camembert_data(commune_name):
+ 
+    #Dictionnary to stock stats
+    pop_data = {}
+
+    # Iterate through files
+    for year,df in year_mapping.items():
+
+        #filter for the data file
+        filtered_data = df[df["Commune"] == commune_name]
+
+        # Group by Federation and sum the total population for each federation
+        grouped = filtered_data.groupby("Fédération")["Total"].sum()
+
+        # Store the totals for each federation in the dictionary
+        for fed, total in grouped.items():
+            if fed not in pop_data:
+                pop_data[fed] = []
+            pop_data[fed].append(total)
+
+    # Calculate percentages for each federation
+    percentages = {fed: sum(values) for fed, values in pop_data.items()}
+    total_population = sum(percentages.values())
+    percentages = {fed: (total / total_population) * 100 for fed, total in percentages.items()}
+
+    return percentages
+        
+
+
+
+
+# def generate_histogram_pop_data(df, selected_location, selected_year):
+# # Filter the data based on the provided location
+
+#     filtered_data = df[df['Location'] == selected_location]
+
+#     # Initialize empty lists for female and male data
+#     female_data = []
+#     male_data = []
+#     year_values = []
+#     #initialise la somme de toutes le femmes
+#     count_female = 0
+
+#      # Collect female and male data for the selected location and year
+#     #somme des femmes
+#     female_count = filtered_data[female_col].values[0]
+#     female_data = filtered_data['Female_Column_Name'].tolist()  # Remplacez 'Female_Column_Name' par le nom réel de votre colonne de données féminines
+#     male_data = filtered_data['Male_Column_Name'].tolist()  # Remplacez 'Male_Column_Name' par le nom réel de votre colonne de données masculines
+#     year_values.append(selected_year);
+#     # Create a new DataFrame in wide-format
+#     wide_format_data = pd.DataFrame(
+#         {
+#             "Female": female_data,
+#             "Male": male_data,
+#             "Year": year_values,
+#         }
+        
+#     )
+
+#     return wide_format_data
 
 # LINE CHART FAIT CRASH LE DASHBOARD
 def generate_linechart_data(federation_name, commune_name, age, gender):
