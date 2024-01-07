@@ -26,7 +26,7 @@ Diviser en sub fichier
 
 3. Installez les dépendances nécessaires :
 
-   pip install plotly dash pandas
+   $ python -m pip install -r requirements.txt
 
 ### UTILISATION
 
@@ -38,7 +38,14 @@ Diviser en sub fichier
 
    http://127.0.0.1:8050/
 
+Au démarage, il a un petit temps d'attente le temps que les fichiers de données .csv soient lu, il est donc normal que le dashboard ne s'affiche pas instentanément.
+
 Vous pouvez maintenant accéder au Dashboard.
+
+4. Utilisation des graphiques :
+   - vous pouvez zoomer sur les graphiques et la carte
+   - vous pouvez choisir les données à afficher et cacher
+   - ## vous pouvez cacher une donnée dans le camembert en cliquant sur sa représentation dans la légende.
 
 ## ANALYSE DES DONNÉES
 
@@ -76,10 +83,6 @@ L'utilisateur choisis :
 
 => on génère un camembert représentant l'ensemble des activités des Fédérations de la commune
 On peut cliquer sur la légende pour ne plus afficher une des Fédérations
-
-ELEMENT 3 : EVOLUTION
-
--> Evolution de de la partique du sport sur 3 ans sur la région
 
 ## DEVELOPER GUIDE
 
