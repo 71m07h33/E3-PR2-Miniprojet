@@ -2,15 +2,10 @@
 
 L’objectif du mini projet est d’éclairer un sujet d’intérêt public (météo, environnement, politique, vie publique, finance, transports, culture, santé, sport, économie, agriculture, écologie, etc…) que vous choisissez librement. Vous utiliserez des données publiques Open Data, accessibles et non modifiées.
 
-Notation
-https://perso.esiee.fr/~courivad/3IPR2/miniprojetdata.html
 
-Après clonage du dépôt et à l’exécution de main.py :
+> Explore the dynamic landscape of sports in France with our interactive dashboard. Whether you're curious about the most popular sports in your region, interested in the demographics of sports enthusiasts, or want to track the evolution of sports participation over the years, our dashboard has you covered.
 
-- le code ne doit pas produire de warnings dans la console ;
-- le dashboard ne doit pas comporter pas d’erreur de call back.
 
-Diviser en sub fichier
 
 ## USER GUIDE
 
