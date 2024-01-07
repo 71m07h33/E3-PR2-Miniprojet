@@ -40,6 +40,22 @@ age_categories = [
 ##################
 
 
+def update_departement_dropdown(selected_year):
+    """
+    Update the departement dropodown
+
+    Parameters:
+        - selected_year (int): The year selected
+    """
+    # Récuperation des departments disponibles en fonction de l'année
+    departement_options = year_mapping.get(selected_year)["Département"].unique()
+
+    # Créer une liste d'option pour notre dropdown
+    options = [{"label": commune, "value": commune} for commune in departement_options]
+
+    return options
+
+
 def update_commune_dropdown(selected_department):
     """
     Update the commune dropodown
@@ -251,25 +267,31 @@ def generate_heatmap_data(
     )
     data = response.json()
 
+    print("Started parsing !")
+
     # Pour chaque commune du départmeent
     for commune in data["features"]:
         # Récupération des données nécessaires
-        commune_code = commune["properties"]["codesPostaux"][0]
+        commune_code = commune["properties"]["code"]
         coordinates = commune["geometry"]["coordinates"]
+        for index, row in clear_df.iterrows():
+            if row["Code Commune"] == int(commune_code):
+                licensees = row[wanted_data]
 
-        # Chercher si le code commune trouvé correspond à une commune de notre base de données
-        match = clear_df.loc[clear_df["Code Commune"] == int(commune_code), wanted_data]
+                if row["Code Commune"] == 74190:
+                    print(row)
+                    print(f"Licensees : {licensees}")
 
-        if not match.empty:
-            # Si la commune existe, rajouté les données à notre carte
-            row_to_append = {
-                "Commune": commune_code,
-                "Licensees": match.iloc[0],
-                "Coordinates": coordinates,
-            }
+                row_to_append = {
+                    "Commune": commune_code,
+                    "Licensees": licensees,
+                    "Coordinates": coordinates,
+                }
 
-            heatmap_df = pd.concat(
-                [heatmap_df, pd.DataFrame([row_to_append])], ignore_index=True
-            )
+                # print(row_to_append)
+
+                heatmap_df = pd.concat(
+                    [heatmap_df, pd.DataFrame([row_to_append])], ignore_index=True
+                )
 
     return heatmap_df

@@ -32,6 +32,8 @@ def update_heatmap(
     # Creation de la couche de marker
     marker_layer = folium.FeatureGroup(name="Marker Layer")
 
+    # print(df.head(25))
+
     # Pour chaque communes
     for index, row in df.iterrows():
         coords = row["Coordinates"]

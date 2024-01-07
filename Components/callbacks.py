@@ -4,7 +4,11 @@ from Dashboard.histogram import update_histogram
 from Dashboard.linechart import update_linechart
 from Dashboard.heatmap import update_heatmap
 from Dashboard.camembert import update_camembert
-from Helper.data_processing import update_commune_dropdown, update_sport_dropdown
+from Helper.data_processing import (
+    update_commune_dropdown,
+    update_sport_dropdown,
+    update_departement_dropdown,
+)
 
 
 def set_callbacks(app: Dash):
@@ -20,12 +24,22 @@ def set_callbacks(app: Dash):
 
     # Dropdown des communes dans un département
     @app.callback(
+        Output("departement-dropdown", "options"),
+        [
+            Input("year-dropdown", "value"),
+        ],
+    )
+    def callback_departement_dropdown(selected_department):
+        return update_departement_dropdown(selected_department)
+
+    # Dropdown des communes dans un département
+    @app.callback(
         Output("commune-dropdown", "options"),
         [
             Input("departement-dropdown", "value"),
         ],
     )
-    def callback_histogram(selected_department):
+    def callback_commune_dropdown(selected_department):
         return update_commune_dropdown(selected_department)
 
     # Dropdown des sports dans une communes
@@ -35,7 +49,7 @@ def set_callbacks(app: Dash):
             Input("commune-dropdown", "value"),
         ],
     )
-    def callback_histogram(selected_department):
+    def callback_sport_dopdown(selected_department):
         return update_sport_dropdown(selected_department)
 
     #################
@@ -47,7 +61,7 @@ def set_callbacks(app: Dash):
         Output(component_id="camembert_graph", component_property="figure"),
         [
             Input("commune-dropdown", "value"),
-            Input("year-slider", "value"),
+            Input("year-dropdown", "value"),
         ],
     )
     def callback_camembert(selected_location, selected_year):
@@ -59,7 +73,7 @@ def set_callbacks(app: Dash):
         [
             Input("sport-dropdown", "value"),
             Input("commune-dropdown", "value"),
-            Input("year-slider", "value"),
+            Input("year-dropdown", "value"),
         ],
     )
     def callback_histogram(selected_sport, selected_commune, selected_year):
@@ -87,7 +101,7 @@ def set_callbacks(app: Dash):
         Output("heatmap", "srcDoc"),
         [
             Input("sport-dropdown", "value"),
-            Input("year-slider", "value"),
+            Input("year-dropdown", "value"),
             Input("age-dropdown", "value"),
             Input("gender-dropdown", "value"),
             Input("departement-dropdown", "value"),

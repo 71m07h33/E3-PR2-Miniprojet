@@ -13,4 +13,4 @@ set_layout(app)
 set_callbacks(app)
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True)  # False pour last push

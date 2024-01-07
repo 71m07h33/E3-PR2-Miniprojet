@@ -24,19 +24,11 @@ def set_layout(app):
                 className="quizz",
                 children=[
                     html.H2("Paramètres"),
-                    # Age
-                    html.H5("Âge"),
+                    # Année
+                    html.H5("Année de la récolte des données"),
                     dcc.Dropdown(
-                        id="age-dropdown",
-                        options=age_categories,
-                        multi=False,
-                        style={"width": "50%"},
-                    ),
-                    # Genre
-                    html.H5("Genre"),
-                    dcc.Dropdown(
-                        id="gender-dropdown",
-                        options=["H", "F"],
+                        id="year-dropdown",
+                        options=[{"label": i, "value": i} for i in range(2019, 2022)],
                         multi=False,
                         style={"width": "50%"},
                     ),
@@ -44,7 +36,7 @@ def set_layout(app):
                     html.H5("Département"),
                     dcc.Dropdown(
                         id="departement-dropdown",
-                        options=year_mapping.get(2019)["Département"].unique(),
+                        options=[],
                         multi=False,
                         style={"width": "50%"},
                     ),
@@ -64,11 +56,19 @@ def set_layout(app):
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    # Année
-                    html.H5("Année de la récolte de donnée"),
+                    # Age
+                    html.H5("Âge"),
                     dcc.Dropdown(
-                        id="year-slider",
-                        options=[{"label": i, "value": i} for i in range(2019, 2022)],
+                        id="age-dropdown",
+                        options=age_categories,
+                        multi=False,
+                        style={"width": "50%"},
+                    ),
+                    # Genre
+                    html.H5("Genre"),
+                    dcc.Dropdown(
+                        id="gender-dropdown",
+                        options=["H", "F"],
                         multi=False,
                         style={"width": "50%"},
                     ),
