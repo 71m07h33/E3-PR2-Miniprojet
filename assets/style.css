@@ -1,0 +1,36 @@
+h1, p{
+    color:#FFFFFF;
+    text-align: center; 
+}
+
+.quizz {
+    width: 50%;
+    margin: auto;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 100px;
+}
+
+.result {
+    margin-top: 100px; /* Add space between the two divs */
+    width: 50%;
+    margin: auto;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+body, h2, h3, h4, h5, h6 {
+    color: black;
+}
+
+
+body {
+    background-color: #001F3F; /* Navy Blue */
+    font-family: 'Calibri', sans-serif;
+}
+
+#heatmap{
+    border-radius: 20px;
+}

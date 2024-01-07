@@ -12,7 +12,6 @@ def update_camembert(selected_location, selected_year):
     fig = px.pie(
         values=values,
         names=labels,
-        title=f"Part de chaque sport pratiqué à {selected_location}",
     )
 
     fig.update_traces(hole=0)

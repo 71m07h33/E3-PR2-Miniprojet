@@ -24,7 +24,6 @@ def update_histogram(selected_sport, selected_location, selected_year):
 
     # Customize layout to make it more visually appealing
     fig.update_layout(
-        title=f"Nombres de licensiés à {selected_location}, à la {selected_sport} en {selected_year}",
         xaxis_title="Catégorie",
         yaxis_title="Licenciés",
         barmode="stack",  # Stack bars on top of each other
