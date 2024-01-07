@@ -13,7 +13,7 @@ h1, p{
 }
 
 .result {
-    margin-top: 100px; /* Add space between the two divs */
+    margin-top: 100px;
     width: 50%;
     margin: auto;
     background-color: #FFFFFF;
@@ -27,7 +27,7 @@ body, h2, h3, h4, h5, h6 {
 
 
 body {
-    background-color: #001F3F; /* Navy Blue */
+    background-color: #001F3F;
     font-family: 'Calibri', sans-serif;
 }
 

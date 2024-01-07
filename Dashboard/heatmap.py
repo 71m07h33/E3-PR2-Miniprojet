@@ -1,45 +1,53 @@
+# Importation
 import folium
-import branca
 from Helper.data_processing import generate_heatmap_data
 
 
-# Dû au limitation de l'API (50 appels par seconde et par IP, il faudrait 10 minutes pour charger toute les communes. On fait alors par région)
 def update_heatmap(
     selected_sport, selected_year, selected_age, selected_gender, selected_department
 ):
-    # Default coordinates
+    """
+    Create and update the heatmap
+
+    Parameters:
+        - selected_sport (str): The sport selected
+        - selected_year (int): The year selected
+        - selected_age (int): The age selected
+        - selected_gender (str): The gender selected
+        - selected_department (str): The departement selected
+    """
+    # Coordonnées du centre de la France
     coords = (46.539758, 2.430331)
-    # Create the map
+    # Creation de la carte
     map = folium.Map(location=coords, tiles="OpenStreetMap", zoom_start=5)
 
-    # Define the wanted data
+    # Définition de la donnée recherché
     wanted_data = f"{selected_gender} - {selected_age}"
 
-    # Generate the heatmap data
+    # Création de la data frame
     df = generate_heatmap_data(
         selected_sport, selected_year, wanted_data, selected_department
     )
 
-    # Create a FeatureGroup
+    # Creation de la couche de marker
     marker_layer = folium.FeatureGroup(name="Marker Layer")
 
-    print(df.head(50))
-
+    # Pour chaque communes
     for index, row in df.iterrows():
         coords = row["Coordinates"]
         licensees = row["Licensees"]
 
+        # Ajouter un marker sur la couche
         folium.CircleMarker(
             location=[coords[1], coords[0]],
-            radius=licensees,  # Simplement changer couleur
-            # color=cm(color),
+            radius=licensees,
             fill=True,
-            # fill_color=cm(color),
             fill_color="crimson",
             fill_opacity=0.7,
             popup=f"Fédération: {selected_sport}\nCatégorie: {wanted_data}\nCommune: {row['Commune']}\nLicensees: {licensees}",
         ).add_to(marker_layer)
 
+    # Ajouter la couche à la carte
     marker_layer.add_to(map)
     folium.LayerControl().add_to(map)
 

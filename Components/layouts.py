@@ -1,3 +1,4 @@
+# Importation
 from dash import dcc, html
 from Helper.data_processing import (
     year_mapping,
@@ -7,85 +8,81 @@ from Dashboard.heatmap import update_heatmap
 
 
 def set_layout(app):
-    # Define the layout of the app
+    """
+    Set the layout of the application
+
+    Parameters:
+        - app (Dash application): The Dash application
+    """
+    # Page Web
     app.layout = html.Div(
         [
+            # Titre
             html.H1("Le sport en France"),
+            # Paramètres
             html.Div(
                 className="quizz",
                 children=[
-                    html.H2("A propos de vous ?"),
-                    html.H5("Votre âge"),
-                    # Dropdown for an age group to study
+                    html.H2("Paramètres"),
+                    # Age
+                    html.H5("Âge"),
                     dcc.Dropdown(
                         id="age-dropdown",
                         options=age_categories,
-                        # Default selection
-                        value="10 à 14 ans",
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    html.H5("Votre genre"),
-                    # Drop for a gender
+                    # Genre
+                    html.H5("Genre"),
                     dcc.Dropdown(
                         id="gender-dropdown",
                         options=["H", "F"],
-                        value="H",
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    html.H5("Votre département"),
-                    # Dropdown for selecting a departement
+                    # Departement
+                    html.H5("Département"),
                     dcc.Dropdown(
                         id="departement-dropdown",
                         options=year_mapping.get(2019)["Département"].unique(),
-                        # Default selection
-                        value="74",
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    html.H5("Votre commune"),
-                    # Dropdown for selecting a commune
+                    # Commune
+                    html.H5("Commune"),
                     dcc.Dropdown(
-                        id="commune-dropdown",  # Location become commune
-                        options=year_mapping.get(2019)["Commune"].unique(),
-                        # Default selection
-                        value="Chamonix-Mont-Blanc",
+                        id="commune-dropdown",
+                        options=[],
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    html.H5("Votre sport"),
-                    # Dropdown for selecting a sport
+                    # Sport
+                    html.H5("Fédération Francaise de sport"),
                     dcc.Dropdown(
                         id="sport-dropdown",
-                        options=[
-                            {"label": sport, "value": sport}
-                            for sport in year_mapping.get(2019)["Fédération"].unique()
-                        ],
-                        # Default selection
-                        value="FF de Ski",
+                        options=[],
                         multi=False,
                         style={"width": "50%"},
                     ),
-                    html.H5("L'année d'étude"),
-                    # Slider for selecting a year
+                    # Année
+                    html.H5("Année de la récolte de donnée"),
                     dcc.Dropdown(
                         id="year-slider",
                         options=[{"label": i, "value": i} for i in range(2019, 2022)],
-                        value=2019,
                         multi=False,
                         style={"width": "50%"},
                     ),
                 ],
             ),
+            # Résultats
             html.Div(
                 className="result",
                 children=[
-                    html.H2("Les Résultats"),
+                    html.H2("Résultats"),
                     html.Div(
                         [
-                            html.H5("Les sports les plus pratiqué dans votre commune"),
-                            # Camembert des sports les plus pratiqué dans la région
+                            # Camembert
+                            html.H5("Sports les plus pratiqué dans votre commune"),
                             dcc.Graph(
                                 id="camembert_graph",
                                 style={"width": "100%"},
@@ -94,26 +91,26 @@ def set_layout(app):
                     ),
                     html.Div(
                         [
-                            html.H5("Qui pratique votre sport dans votre commune ?"),
-                            # Histogram with Plotly Express
+                            # Histogramme
+                            html.H5(
+                                "Histogramme des pratiquants de votre sport dans votre commune ?"
+                            ),
                             dcc.Graph(id="histogram"),
+                            # Graphique
                             html.H5(
                                 "Comment evolue la pratique de votre sport dans votre catégorie ?"
                             ),
-                            # Line chart for sport's evolution thourghout the years
                             dcc.Graph(id="graph"),
                         ]
                     ),
                     html.Div(
                         [
+                            # Carte
                             html.H5(
-                                "Où se situent les plus grand pratiquants dans votre déparetments ?"
+                                "Carte des pratiquants de votre sport dans votre départements"
                             ),
                             html.Iframe(
                                 id="heatmap",
-                                srcDoc=update_heatmap(
-                                    "FF de Ski", 2019, "10 à 14 ans", "H", "74"
-                                ),
                                 width="100%",
                                 height="500",
                             ),
@@ -121,6 +118,7 @@ def set_layout(app):
                     ),
                 ],
             ),
-            html.P("Fait avec ❤️ par Valentin L. et Timothée D."),
+            # Footer
+            html.P("Valentin L. & Timothée D.   •   ESIEE Paris   •   2024"),
         ]
     )

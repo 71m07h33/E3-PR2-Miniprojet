@@ -1,12 +1,59 @@
+# Importation
 from dash import Dash, Input, Output
 from Dashboard.histogram import update_histogram
 from Dashboard.linechart import update_linechart
 from Dashboard.heatmap import update_heatmap
 from Dashboard.camembert import update_camembert
+from Helper.data_processing import update_commune_dropdown, update_sport_dropdown
 
 
 def set_callbacks(app: Dash):
-    # Define callback to update histogram based on user inputs
+    """
+    Set the callbacks of the application
+
+    Parameters:
+        - app (Dash application): The Dash application
+    """
+    ##################
+    ### PARAMETRES ###
+    ##################
+
+    # Dropdown des communes dans un département
+    @app.callback(
+        Output("commune-dropdown", "options"),
+        [
+            Input("departement-dropdown", "value"),
+        ],
+    )
+    def callback_histogram(selected_department):
+        return update_commune_dropdown(selected_department)
+
+    # Dropdown des sports dans une communes
+    @app.callback(
+        Output("sport-dropdown", "options"),
+        [
+            Input("commune-dropdown", "value"),
+        ],
+    )
+    def callback_histogram(selected_department):
+        return update_sport_dropdown(selected_department)
+
+    #################
+    ### RESULTATS ###
+    #################
+
+    # Camembert intéractif, évoluant en fonction des paramètres du dashboard
+    @app.callback(
+        Output(component_id="camembert_graph", component_property="figure"),
+        [
+            Input("commune-dropdown", "value"),
+            Input("year-slider", "value"),
+        ],
+    )
+    def callback_camembert(selected_location, selected_year):
+        return update_camembert(selected_location, selected_year)
+
+    # Histogramme intéractif, évoluant en fonction des paramètres du dashboard
     @app.callback(
         Output("histogram", "figure"),
         [
@@ -18,6 +65,7 @@ def set_callbacks(app: Dash):
     def callback_histogram(selected_sport, selected_commune, selected_year):
         return update_histogram(selected_sport, selected_commune, selected_year)
 
+    # Graphique intéractif, évoluant en fonction des paramètres du dashboard
     @app.callback(
         Output("graph", "figure"),
         [
@@ -34,7 +82,7 @@ def set_callbacks(app: Dash):
             selected_sport, selected_location, selected_age, selected_gender
         )
 
-    # Define callback to update heatmap based on user inputs
+    # Carte intéractive, évoluant en fonction des paramètres du dashboard
     @app.callback(
         Output("heatmap", "srcDoc"),
         [
@@ -59,13 +107,3 @@ def set_callbacks(app: Dash):
             selected_gender,
             selected_department,
         )
-
-    @app.callback(
-        Output(component_id="camembert_graph", component_property="figure"),
-        [
-            Input("commune-dropdown", "value"),
-            Input("year-slider", "value"),
-        ],
-    )
-    def callback_camembert(selected_location, selected_year):
-        return update_camembert(selected_location, selected_year)

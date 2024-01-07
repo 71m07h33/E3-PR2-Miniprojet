@@ -1,3 +1,4 @@
+# Importation
 import requests
 import os
 
@@ -10,10 +11,12 @@ def download_file(url, filename):
         - url (str): The URL of the file to download.
         - destination_folder (str): The folder where the file should be saved. Default is the current directory.
     """
+    # Envoyer une requête à l'URL
     response = requests.get(url)
 
+    # Si la requête s'est bien passé
     if response.status_code == 200:
-        # Extracting the filename from the URL
+        # Extraction des données
         destination_path = os.path.join("./Data", filename)
 
         with open(destination_path, "wb") as file:
