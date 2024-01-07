@@ -26,60 +26,80 @@ Diviser en sub fichier
 
 3. Installez les dépendances nécessaires :
 
-   pip install plotly dash pandas
+   $ python -m pip install -r requirements.txt
+
+4. Télécharger les données, nécessaires au fonctionnement du dashboard :
+
+   $ python get_data.py
 
 ### UTILISATION
 
-1. Ouvrez le projet dans un IDE (ex : Visual Studio Code)
+1. Éxecuter le fichier main.py dans une invite de commande. Le fichier va ainsi installer les fichiers de données necessaires
 
-2. Éxecuter le fichier main.py dans une invite de commande. Le fichier va ainsi installer les fichiers de données necessaires
+   $ python main.py
 
-3. Ouvrez un navigateur web et "Ctrl + click gauche" sur le lien donné dans l'invite de commande
+2. Ouvrez un navigateur web taper:
 
    http://127.0.0.1:8050/
 
-Vous pouvez maintenant accéder au Dashboard.
+   - Au démarage, il a un petit temps d'attente le temps que les fichiers de données .csv soient lu, il est donc normal que le dashboard ne s'affiche pas instentanément.
+
+   - Vous pouvez maintenant accéder au Dashboard.
+
+3. Remplissez les paramètres:
+
+   - Attention : Il est primordiale de remplir tout les paramètres avant d'aller regarder les résultats.
+
+4. Utilisation des graphiques :
+   - Camembert : Vous pouvez cacher des donnée et cliquant dans la légende
+   - Histogram & Graphique : Vous pouvez agrandir en selectionnant une zone du schéma 
+   - Carte : Vous pouvez agrandir avec la mollette. En passant la sourie sur un point, vous aurez le nombre précis de licensiées
+
+5. Attention : Le Dropdown Fédération dépend du dropdown Commune, dépendant du dropdown Département, dépendant du dropdown Année. Ainsi, modifier l'un de ces dropdown peut dans de très rare cas générer des bugs. Pour remédier à ce problème, il suffit de recharger la page et de mettre les paramètres voulu.
 
 ## ANALYSE DES DONNÉES
 
-ELEMENT 1 : HISTOGRAMME COMPOSITION DES SPORTS EN FONCTIONS DE L'AGE ET DU SEXE
+### ELEMENT 1 : CAMEMBERT DES ACTIVITÉS
 
-L'utilisateur choisis : - Le sport dans le premier DROPDOWN - La localisation dans le deuxième DROPDOWN - L'année (Entre 2017 et 2019)
+L'utilisateur choisis :
+   - Une année d'étude
+   - Un département
+   - Une commune
+
+
+=> On génère un camembert représentant l'ensemble des activités des Fédérations de la commune
+
+### ELEMENT 2 : HISTOGRAMME COMPOSITION DES SPORTS EN FONCTIONS DE L'AGE ET DU SEXE
+
+L'utilisateur choisis :
+   - Une année d'étude
+   - Un département
+   - Une commune
+   - Une fédération de sport
 
 => On génère un histogramme avec le nombre de licenciés dans un sport dans une région en fonction de l'âge (Homme, Femme pour chaque catégorie d'âge)
-=> Générer une animation à travers les années
 
-ELEMENT 2 : CARTE DYNAMIQUE CONCENTRATION SPORTIF
-
-L'utilisateur choisis :
-
-- Le sport (Si aucun sport n'est choisis, on prendra le nombre totale de licenciés sur tout les sports)
-- L'information (Le nombre de clubs ou le nombre de licenciés ? (radio))
-
-L'utilisateur peut filtrer : - En fonction de l'age - En fonction du sexe
-
-=> On génère une cartre chaud/froid de la france avec la concentration dans un sport dans chaque région
-=> Générer une animation à travers les années
-
-ELEMENT 2 : CARTE DYNAMIQUE LE SPORT LE PLUS POPULAIRE PAR REGION
-
-L'utilisateur choisis : - L'année - La catégorie - La sexe
-
-=> On génère une cartre avec pour chaque région de france le sport le plus populaire
-
-ELEMENT 3 : CAMEMBERT DES ACTIVITÉS
+### ELEMENT 3 : GRAPHIQUE DE L'EVOLUTION DU NOMBRE DE LICENSES EN FONCTION DE L'AGE ET DU SEXE
 
 L'utilisateur choisis :
+   - Un département
+   - Une commune
+   - Une fédération de sport
+   - Une catégorie d'âge
+   - Un genre
 
-- une commune dans le DROPDOWN
-- une année dans le SLIDER
+=> On génère un graphique "ligne" avec le nombre de licenciés dans un sport dans une commune en fonction de l'âge et du genre
 
-=> on génère un camembert représentant l'ensemble des activités des Fédérations de la commune
-On peut cliquer sur la légende pour ne plus afficher une des Fédérations
+### ELEMENT 4 : CARTE DYNAMIQUE CONCENTRATION SPORTIF
 
-ELEMENT 3 : EVOLUTION
+L'utilisateur choisis :
+   - Une année d'étude
+   - Une fédération de sport
+   - Une catégorie d'âge
+   - Un genre
 
--> Evolution de de la partique du sport sur 3 ans sur la région
+=> On génère une cartre chaud/froid du département avec la concentration du sport dans chaque commune
+
 
 ## DEVELOPER GUIDE
 
@@ -87,28 +107,30 @@ ELEMENT 3 : EVOLUTION
 
 Le projet est constitué de 4 dossiers à sa racine :
 
-1. Components : le dossier où les @callback sont effectués et le layout de l'application
+1. Components : le dossier où les @callback sont effectués et est dessiné le layout de l'application
 
-2. Dashboard : le dossiers ou chaque élément du dashboard possède un fichier python. Le fichier python possède la fonction permettant de faire l'update de l'élément
+2. Dashboard : le dossier où chaque élément du dashboard est créer et mis à jour. Le fichier python possède la fonction permettant de faire l'update de l'élément.
 
-3. Data : le dossier data contient les fichiers .csv où sont stockées les données liées aux fédérations de chaques communes en France. Le dossier possède 3 ficher indiquant les données de 2019, 2020 et 2021
+3. Data : le dossier où les donnée sont stockées. Le dossier possède 3 fichers représentant respéctivement les données de 2019, 2020 et 2021
 
-4. Guides :
+4. Helper : le dossier contient seulement un fichier data_processing.py qui permet d'extraire et de traitées les données brutes afin qu'elles soient plus facilement utilisable.
 
 ### AJOUTER DU CODE
 
 Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
 
-1. créer le fichier python lié à l'élément dans le dossier Dashboard avec sa fonction
+1. Créer le fichier python lié à l'élément dans le dossier Dashboard avec sa fonction
 
-2. ajouter les Div nécessaires dans le ficier layouts.py
+2. Ajouter les Div nécessaires dans le ficier layouts.py
 
-3. effectuer les @callback necessaires dans le fichier callback.py dans le dossier Components
+3. Effectuer les @callback necessaires dans le fichier callback.py dans le dossier Components
 
-4. ajouter la fonction pour générer le nouvel élémennt dans le fichier data_processing.py
+4. Si besoin : créer une fonction dans data_processing.py pour récupérer les données des fichiers .csv
 
 ### AJOUTER DES DONNEES
 
-1. ajouter le downloard necessaire dans le fichier get_data.py afin de pouvoir récupérer les données directement les données dans le projet en fournissant le lien vers le fichier csv à ajouter.
+   -  Ajouter le download necessaire dans le fichier get_data.py afin de pouvoir récupérer les données directement dans le projet en fournissant le lien vers le fichier .csv à ajouter.
 
-!! vérifier que les nouvelles données possèdent le même modèle que les données déjà présentes !!
+   - Le code ira automatiquement l'ajouter au dossier Data en le téléchargeant
+
+   - Attention, pour assurer le bon fonctionnement du dashboard, il est important de vérifier que les nouvelles données possèdent le même modèle que les données existantes
