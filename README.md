@@ -130,6 +130,23 @@ Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
 
    - Attention, pour assurer le bon fonctionnement du dashboard, il est important de vérifier que les nouvelles données possèdent le même modèle que les données existantes
 
+## Architecture du code
+
+```mermaid
+Représentation du fonctionnement de notre dashboard;
+  main-->layouts;
+  main-->callbacks;
+  callbacks-->camembert;
+  callbacks-->heatmap;
+  callbacks-->histogram;
+  callbacks-->linechart;
+  camembert-->data_processing;
+  heatmap-->data_processing;
+  histogram-->data_processing;
+  linechart-->data_processing;
+```
+
+
 ## Copyright
 Je déclare sur l’honneur que le code fourni a été produit par moi/nous même, à l’exception des lignes ci dessous.
 
