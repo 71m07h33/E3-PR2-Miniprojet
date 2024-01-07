@@ -129,3 +129,11 @@ Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
    - Le code ira automatiquement l'ajouter au dossier Data en le téléchargeant
 
    - Attention, pour assurer le bon fonctionnement du dashboard, il est important de vérifier que les nouvelles données possèdent le même modèle que les données existantes
+
+## Copyright
+Je déclare sur l’honneur que le code fourni a été produit par moi/nous même, à l’exception des lignes ci dessous.
+
+Pour chaque ligne (ou groupe de lignes) empruntée, donner la référence de la source et une explication de la syntaxe utilisée.
+
+Toute ligne non déclarée est réputée être produite par l’auteur (ou les auteurs) du projet. L’absence ou l’omission de déclaration sera considéré comme du plagiat.
+
