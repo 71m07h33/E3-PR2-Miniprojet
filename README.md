@@ -110,8 +110,12 @@ Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
 
 4. ajouter la fonction pour générer le nouvel élémennt dans le fichier data_processing.py
 
+5. Certains DROPDOWNS étant liés entre eux, apporter des changements à certains peut faire apparaitre des bugs, c'est pourquoi nous conseillons de refresh la page afin d'éviter que cela ce produise.
+
 ### AJOUTER DES DONNEES
 
-1. ajouter le downloard necessaire dans le fichier get_data.py afin de pouvoir récupérer les données directement les données dans le projet en fournissant le lien vers le fichier csv à ajouter.
+1. ajouter le downloard necessaire dans le fichier get_data.py afin de pouvoir récupérer les données directement dans le projet en fournissant le lien vers le fichier .csv à ajouter.
+
+Le code ira automatiquement l'ajouter au dossier Data en le téléchargeant
 
 !! vérifier que les nouvelles données possèdent le même modèle que les données déjà présentes !!
