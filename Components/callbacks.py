@@ -10,18 +10,18 @@ def set_callbacks(app: Dash):
         Output("histogram", "figure"),
         [
             Input("sport-dropdown", "value"),
-            Input("location-dropdown", "value"),
+            Input("commune-dropdown", "value"),
             Input("year-slider", "value"),
         ],
     )
-    def callback_histogram(selected_sport, selected_location, selected_year):
-        return update_histogram(selected_sport, selected_location, selected_year)
+    def callback_histogram(selected_sport, selected_commune, selected_year):
+        return update_histogram(selected_sport, selected_commune, selected_year)
 
     @app.callback(
         Output("graph", "figure"),
         [
             Input("sport-dropdown", "value"),
-            Input("location-dropdown", "value"),
+            Input("commune-dropdown", "value"),
             Input("age-dropdown", "value"),
             Input("gender-dropdown", "value"),
         ],
@@ -41,9 +41,20 @@ def set_callbacks(app: Dash):
             Input("year-slider", "value"),
             Input("age-dropdown", "value"),
             Input("gender-dropdown", "value"),
+            Input("departement-dropdown", "value"),
         ],
     )
-    def callback_heatmap(selected_sport, selected_year, selected_age, selected_gender):
+    def callback_heatmap(
+        selected_sport,
+        selected_year,
+        selected_age,
+        selected_gender,
+        selected_department,
+    ):
         return update_heatmap(
-            selected_sport, selected_year, selected_age, selected_gender
+            selected_sport,
+            selected_year,
+            selected_age,
+            selected_gender,
+            selected_department,
         )

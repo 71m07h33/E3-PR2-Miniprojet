@@ -3,9 +3,9 @@ import pandas as pd
 import requests
 
 # Define the API endpoint
-geolocalisation_json = requests.get(
-    "https://geo.api.gouv.fr/communes?fields=code,nom,centre"
-).json()
+# geolocalisation_json = requests.get(
+#     "https://geo.api.gouv.fr/communes?fields=code,nom,centre"
+# ).json()
 
 # Load the CSV data
 df_2021 = pd.read_csv("./Data/lic-data-2021.csv", delimiter=";", encoding="utf-8")
@@ -39,9 +39,9 @@ age_categories = [
 ]
 
 # Create a dictionary with commune codes as keys and coordinates as values
-coordinates_dict = coordinates_dict = {
-    entry["code"]: entry["centre"]["coordinates"] for entry in geolocalisation_json
-}
+# coordinates_dict = coordinates_dict = {
+#     entry["code"]: entry["centre"]["coordinates"] for entry in geolocalisation_json
+# }
 
 
 def generate_histogram_data(df, federation_name, commune_name, selected_year):
@@ -109,38 +109,42 @@ def generate_linechart_data(federation_name, commune_name, age, gender):
     return wide_format_data
 
 
-def generate_heatmap_data(federation_name, selected_year, wanted_data):
+def generate_heatmap_data(
+    federation_name, selected_year, wanted_data, selected_department
+):
+    # Choix de l'année
     df = year_mapping.get(selected_year)
 
-    # Create an empty DataFrame to store the results
-    heatmap_df = pd.DataFrame(columns=["Commune", "Licensees", "Latitude", "Longitude"])
+    heatmap_df = pd.DataFrame(columns=["Commune", "Licensees", "Coordinates"])
 
-    # Iterate over each row in df
-    for index, row in df.iterrows():
-        if row["Fédération"] == federation_name:
-            # Make an API request for each commune
-            code = str(row["Code Commune"])
-            padded_code = code.zfill(5)
+    # Filtrer en fonction de la fédération
+    filtered_by_federation = df[df["Fédération"] == federation_name]
 
-            if coordinates_dict.get(padded_code) is not None:
-                # Separate longitude and latitude
-                longitude, latitude = coordinates_dict.get(padded_code)
-                nombre_licensies = row[wanted_data]
+    clear_df = filtered_by_federation[
+        filtered_by_federation["Département"] == int(selected_department)
+    ]
 
-                # Correct usage of append
-                heatmap_df = pd.concat(
-                    [
-                        heatmap_df,
-                        pd.DataFrame(
-                            {
-                                "Commune": [padded_code],
-                                "Licensees": [nombre_licensies],
-                                "Latitude": [latitude],
-                                "Longitude": [longitude],
-                            }
-                        ),
-                    ],
-                    ignore_index=True,
-                )
+    response = requests.get(
+        f"https://geo.api.gouv.fr/departements/{selected_department}/communes?format=geojson"
+    )
+    data = response.json()
+
+    for commune in data["features"]:
+        commune_code = commune["properties"]["codesPostaux"][0]
+        coordinates = commune["geometry"]["coordinates"]
+
+        match = clear_df.loc[clear_df["Code Commune"] == int(commune_code), wanted_data]
+
+        if not match.empty:
+            row_to_append = {
+                "Commune": commune_code,
+                "Licensees": match.iloc[0],
+                "Coordinates": coordinates,
+            }
+            print(f"Commune: {commune_code} -> {match.iloc[0]}")
+
+            heatmap_df = pd.concat(
+                [heatmap_df, pd.DataFrame([row_to_append])], ignore_index=True
+            )
 
     return heatmap_df

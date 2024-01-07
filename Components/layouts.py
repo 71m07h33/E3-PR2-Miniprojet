@@ -1,5 +1,8 @@
 from dash import dcc, html
-from Helper.data_processing import year_mapping, age_categories
+from Helper.data_processing import (
+    year_mapping,
+    age_categories,
+)
 from Dashboard.heatmap import update_heatmap
 
 
@@ -30,9 +33,8 @@ def set_layout(app):
                 multi=False,
                 style={"width": "50%"},
             ),
-            # Dropdown for selecting a location
             dcc.Dropdown(
-                id="location-dropdown",
+                id="commune-dropdown",  # Location become commune
                 options=year_mapping.get(2019)["Commune"].unique(),
                 # Default selection
                 value="Chamonix-Mont-Blanc",
@@ -71,10 +73,19 @@ def set_layout(app):
             ),
             # Line chart for sport's evolution thourghout the years
             dcc.Graph(id="graph"),
+            # Dropdown for selecting a location
+            dcc.Dropdown(
+                id="departement-dropdown",
+                options=year_mapping.get(2019)["Département"].unique(),
+                # Default selection
+                value="74",
+                multi=False,
+                style={"width": "50%"},
+            ),
             html.H1("Carte Folium"),
             html.Iframe(
                 id="heatmap",
-                srcDoc=update_heatmap("FF de Ski", 2019, "10 à 14 ans", "H"),
+                srcDoc=update_heatmap("FF de Ski", 2019, "10 à 14 ans", "H", "74"),
                 width="50%",
                 height="400",
             ),

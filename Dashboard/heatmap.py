@@ -1,37 +1,46 @@
 import folium
+import branca
 from Helper.data_processing import generate_heatmap_data
 
 
-def update_heatmap(selected_sport, selected_year, selected_age, selected_gender):
-    # Creation de la carte
+# Dû au limitation de l'API (50 appels par seconde et par IP, il faudrait 10 minutes pour charger toute les communes. On fait alors par région)
+def update_heatmap(
+    selected_sport, selected_year, selected_age, selected_gender, selected_department
+):
+    # Default coordinates
     coords = (46.539758, 2.430331)
+    # Create the map
     map = folium.Map(location=coords, tiles="OpenStreetMap", zoom_start=5)
 
-    # Donnée rcherché
+    # Define the wanted data
     wanted_data = f"{selected_gender} - {selected_age}"
 
-    # Creation de la dataframe
-    df = generate_heatmap_data(selected_sport, selected_year, wanted_data)
-    print(df)
+    # Generate the heatmap data
+    df = generate_heatmap_data(
+        selected_sport, selected_year, wanted_data, selected_department
+    )
 
-    for row in df.iterrows():
-        commune = row[1][0]
-        latitude = row[1][2]
-        longitude = row[1][3]
-        radius = row[1][1]
+    # Create a FeatureGroup
+    marker_layer = folium.FeatureGroup(name="Marker Layer")
 
-        print(f"commune : {commune}")
-        print(f"latitude : {latitude}")
-        print(f"Longitude : {longitude}")
-        print(f"Licensiées : {radius}\n\n")
+    print(df.head(50))
+
+    for index, row in df.iterrows():
+        coords = row["Coordinates"]
+        licensees = row["Licensees"]
 
         folium.CircleMarker(
-            location=(latitude, longitude),
-            radius=radius,
-            color="crimson",
+            location=[coords[1], coords[0]],
+            radius=licensees,  # Simplement changer couleur
+            # color=cm(color),
             fill=True,
+            # fill_color=cm(color),
             fill_color="crimson",
-        ).add_to(map)
+            fill_opacity=0.7,
+            popup=f"Fédération: {selected_sport}\nCatégorie: {wanted_data}\nCommune: {row['Commune']}\nLicensees: {licensees}",
+        ).add_to(marker_layer)
 
-    # Retour de la cart
+    marker_layer.add_to(map)
+    folium.LayerControl().add_to(map)
+
     return map._repr_html_()
