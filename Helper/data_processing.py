@@ -148,3 +148,46 @@ def generate_heatmap_data(
             )
 
     return heatmap_df
+
+
+def generate_camembert_data(commune_name, selected_year):
+    # Dictionnaire pour stocker les statistiques
+    pop_data = {}
+    df = year_mapping[selected_year]
+
+    # Filtrer les données pour l'année et la commune sélectionnées
+    filtered_data = df[df["Commune"] == commune_name]
+
+    # Grouper par fédération et calculer la population totale pour chaque fédération
+    grouped = filtered_data.groupby("Fédération")["Total"].sum()
+
+    # Stocker les totaux pour chaque fédération dans le dictionnaire
+    for fed, total in grouped.items():
+        if fed not in pop_data:
+            pop_data[fed] = []
+        pop_data[fed].append(total)
+
+    # Calculer les pourcentages pour chaque fédération
+    percentages = {fed: sum(values) for fed, values in pop_data.items()}
+    total_population = sum(percentages.values())
+
+    percentages = {
+        fed: (total / total_population) * 100 for fed, total in percentages.items()
+    }
+
+    total_population = sum(percentages.values())
+
+    # Filter federations with less than 5% and sum them up
+    other_federations = sum(
+        value for value in percentages.values() if (value / total_population) * 100 < 3
+    )
+
+    # Create a new dictionary with the federations and "Other Federation"
+    modified_percentages = {
+        fed: (value / total_population) * 100
+        for fed, value in percentages.items()
+        if (value / total_population) * 100 >= 3
+    }
+    modified_percentages["Other Federation"] = other_federations
+
+    return modified_percentages

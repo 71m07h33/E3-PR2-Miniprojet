@@ -2,6 +2,7 @@ from dash import Dash, Input, Output
 from Dashboard.histogram import update_histogram
 from Dashboard.linechart import update_linechart
 from Dashboard.heatmap import update_heatmap
+from Dashboard.camembert import update_camembert
 
 
 def set_callbacks(app: Dash):
@@ -58,3 +59,13 @@ def set_callbacks(app: Dash):
             selected_gender,
             selected_department,
         )
+
+    @app.callback(
+        Output(component_id="camembert_graph", component_property="figure"),
+        [
+            Input("commune-dropdown", "value"),
+            Input("year-slider", "value"),
+        ],
+    )
+    def callback_camembert(selected_location, selected_year):
+        return update_camembert(selected_location, selected_year)

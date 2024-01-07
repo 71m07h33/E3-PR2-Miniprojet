@@ -89,5 +89,9 @@ def set_layout(app):
                 width="50%",
                 height="400",
             ),
+            dcc.Graph(
+                id="camembert_graph",
+                style={"width": "50%"},
+            ),
         ]
     )
