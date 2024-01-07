@@ -133,7 +133,7 @@ Pour ajouter du code : exemple de l'ajout d'un nouvel élément au Dashboard
 ## Architecture du code
 
 ```mermaid
-Représentation du fonctionnement de notre dashboard;
+flowchart TD
   main-->layouts;
   main-->callbacks;
   callbacks-->camembert;
