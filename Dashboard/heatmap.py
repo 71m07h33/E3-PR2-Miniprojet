@@ -1,5 +1,6 @@
 # Importation
 import folium
+import seaborn as sns
 from Helper.data_processing import generate_heatmap_data
 
 
@@ -32,21 +33,31 @@ def update_heatmap(
     # Creation de la couche de marker
     marker_layer = folium.FeatureGroup(name="Marker Layer")
 
-    # print(df.head(25))
+    # Créer une palette de couleur
+    max_licensees = df["Licensees"].max()
+    palette = sns.color_palette("coolwarm", as_cmap=True)
 
     # Pour chaque communes
     for index, row in df.iterrows():
         coords = row["Coordinates"]
         licensees = row["Licensees"]
 
+        # Normalise le nombre de licensiées (pour qu'il soit compris entre 0 et 1), puis le convertit en hexadécimal pour être lu par fill color
+        normalized_licensees = licensees / max_licensees
+        color = palette(normalized_licensees)
+        hex_color = "#{:02x}{:02x}{:02x}".format(
+            int(color[0] * 255), int(color[1] * 255), int(color[2] * 255)
+        )
+
         # Ajouter un marker sur la couche
         folium.CircleMarker(
             location=[coords[1], coords[0]],
-            radius=licensees,
+            radius=10,
             fill=True,
-            fill_color="crimson",
+            color=hex_color,
+            fill_color=hex_color,
             fill_opacity=0.7,
-            popup=f"Fédération: {selected_sport}\nCatégorie: {wanted_data}\nCommune: {row['Commune']}\nLicensees: {licensees}",
+            popup=f"Licensees: {licensees}",
         ).add_to(marker_layer)
 
     # Ajouter la couche à la carte

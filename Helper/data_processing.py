@@ -267,29 +267,25 @@ def generate_heatmap_data(
     )
     data = response.json()
 
-    print("Started parsing !")
-
     # Pour chaque commune du départmeent
     for commune in data["features"]:
         # Récupération des données nécessaires
         commune_code = commune["properties"]["code"]
         coordinates = commune["geometry"]["coordinates"]
+
+        # On traverse chaque ligne de la dataframe (pourrait être optimisé)
         for index, row in clear_df.iterrows():
+            # Si on est sur la bonne commune
             if row["Code Commune"] == int(commune_code):
+                # Récupère le nombre de licensiées
                 licensees = row[wanted_data]
 
-                if row["Code Commune"] == 74190:
-                    print(row)
-                    print(f"Licensees : {licensees}")
-
+                # On rajoute la commune avec ses données à la dataframe finale
                 row_to_append = {
                     "Commune": commune_code,
                     "Licensees": licensees,
                     "Coordinates": coordinates,
                 }
-
-                # print(row_to_append)
-
                 heatmap_df = pd.concat(
                     [heatmap_df, pd.DataFrame([row_to_append])], ignore_index=True
                 )
