@@ -2,6 +2,5 @@ dash
 plotly
 pandas
 requests
-os-win
 folium
 seaborn
